@@ -1,80 +1,95 @@
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const path = require('path');
+require('dotenv').config();
 
-// Load environment variables
-dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 5000;
+ 
+// Import database configuration
+const pool = require('./config/database');
 
 // Import routes
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
 const faqsRoutes = require('./routes/faqs');
 const pricingRoutes = require('./routes/pricing');
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
+ 
 // Middleware
+
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Request logging
+// Handle preflight safely
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
   next();
+});// ✅ allow all preflight requests
+
+app.use(express.json());
+
+// Test database connection
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const connection = await pool.getConnection();
+    console.log('Database connected successfully');
+    connection.release();
+    res.json({ message: 'Database connected successfully' });
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    res.status(500).json({ error: 'Database connection failed' });
+  }
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'Server is running',
-    timestamp: new Date().toISOString()
-  });
-});
 
-// API Routes
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/faqs', faqsRoutes);
 app.use('/api/pricing', pricingRoutes);
 
-// 404 Handler for API routes - SIMPLE FIX
-app.use('/api', (req, res, next) => {
-  if (req.originalUrl.startsWith('/api/') && 
-      !req.originalUrl.match(/^\/(api\/auth|api\/users|api\/faqs|api\/pricing|api\/health)/)) {
-    return res.status(404).json({
-      success: false,
-      error: 'API endpoint not found',
-      path: req.path
-    });
-  }
-  next();
+
+// Basic health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'Server is running', 
+    timestamp: new Date().toISOString() 
+  });
 });
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-  });
-}
+// 404 handler for API routes - FIXED: Use parameter instead of *
+app.use('/api/:any', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
 
-// Global error handler
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Quiz App API Server', 
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      testDb: '/api/test-db',
+      auth: '/api/auth',
+    }
+  });
+});
+
+// Error handling middleware
 app.use((error, req, res, next) => {
-  console.error('Error:', error);
-  res.status(500).json({
-    success: false,
-    error: 'Internal server error'
-  });
+  console.error('Server error:', error);
+  res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

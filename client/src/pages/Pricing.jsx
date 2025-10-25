@@ -71,7 +71,7 @@ export default function Pricing() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-600 transition-colors"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Plan
@@ -90,7 +90,7 @@ export default function Pricing() {
               key={plan.id}
               className={`relative rounded-2xl border-2 p-6 ${
                 plan.is_highlighted
-                  ? 'border-primary-500 bg-primary-50 scale-105 shadow-xl'
+                  ? 'border-blue-500 bg-primary-50 scale-105 shadow-xl'
                   : 'border-gray-200 bg-white shadow-lg'
               } transition-transform`}
             >
@@ -107,7 +107,7 @@ export default function Pricing() {
               {/* Highlighted Badge */}
               {plan.is_highlighted && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                  <div className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
                     Featured
                   </div>
                 </div>
@@ -263,7 +263,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="e.g., Basic, Pro, Enterprise"
               />
             </div>
@@ -278,7 +278,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 required
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -291,7 +291,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 step="0.01"
                 value={formData.yearly_price}
                 onChange={(e) => setFormData({ ...formData, yearly_price: parseFloat(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -304,7 +304,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 required
                 value={formData.monthly_minutes}
                 onChange={(e) => setFormData({ ...formData, monthly_minutes: parseInt(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -317,7 +317,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={2}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Plan description"
             />
           </div>
@@ -333,7 +333,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 value={featureInput}
                 onChange={(e) => setFeatureInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Add a feature"
               />
               <button
@@ -370,7 +370,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 step="0.01"
                 value={formData.extra_minute_cost}
                 onChange={(e) => setFormData({ ...formData, extra_minute_cost: parseFloat(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -382,7 +382,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 type="number"
                 value={formData.per_file_minutes_limit}
                 onChange={(e) => setFormData({ ...formData, per_file_minutes_limit: parseInt(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -394,7 +394,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 type="number"
                 value={formData.total_lifetime_minutes}
                 onChange={(e) => setFormData({ ...formData, total_lifetime_minutes: parseInt(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -406,7 +406,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 id="is_highlighted"
                 checked={formData.is_highlighted}
                 onChange={(e) => setFormData({ ...formData, is_highlighted: e.target.checked })}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                className="h-4 w-4 text-primary-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label htmlFor="is_highlighted" className="ml-2 block text-sm text-gray-900">
                 Highlighted Plan
@@ -419,7 +419,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 id="is_popular"
                 checked={formData.is_popular}
                 onChange={(e) => setFormData({ ...formData, is_popular: e.target.checked })}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                className="h-4 w-4 text-primary-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label htmlFor="is_popular" className="ml-2 block text-sm text-gray-900">
                 Most Popular
@@ -432,7 +432,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
                 id="requires_recharge"
                 checked={formData.requires_recharge}
                 onChange={(e) => setFormData({ ...formData, requires_recharge: e.target.checked })}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                className="h-4 w-4 text-primary-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label htmlFor="requires_recharge" className="ml-2 block text-sm text-gray-900">
                 Requires Recharge
@@ -450,7 +450,7 @@ function PricingForm({ plan, onSubmit, onClose }) {
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               {plan ? 'Update Plan' : 'Create Plan'}
             </button>
